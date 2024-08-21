@@ -5,8 +5,8 @@
 
       <div class="answers">
         <div v-for="(answer, index) in this.answers" :key="index" class="answer-item">
-          <input type="radio" name="options" value="answer" id="option-{{ index }}" />
-          <label for="option-{{ index }}" v-html="answer"></label>
+          <input type="radio" name="options" :value="answer" :id="'option-' + index" />
+          <label :for="'option-' + index" v-html="answer"></label>
         </div>
       </div>
 
