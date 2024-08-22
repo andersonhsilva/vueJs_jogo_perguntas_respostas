@@ -81,6 +81,7 @@ export default {
 
       this.answerSubmit = false;
       this.chosen_answer = undefined;
+      this.question = undefined;
 
       var api = 'https://opentdb.com/api.php?amount=1&category=18';
       this.axios.get(api).then((response) => {
