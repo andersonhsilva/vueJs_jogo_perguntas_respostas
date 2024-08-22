@@ -1,9 +1,6 @@
 <template>
 
-  <!-- Placar -->
-  <div class="scoreboard">
-    <h1>Placar: Usuário {{ this.userScore }} x {{ this.computerScore }} Computador</h1>
-  </div>
+  <ScoreBoard :userScore="this.userScore" :computerScore="this.computerScore" />
 
   <!-- Questão e Respostas -->
   <h1>Responda a Questão:</h1>
@@ -26,9 +23,13 @@
 </template>
 
 <script>
+import ScoreBoard from "@/components/ScoreBoard.vue"
 export default {
 
   name: 'App',
+  components: {
+    ScoreBoard
+  },
 
   data() {
     return {
@@ -67,9 +68,9 @@ export default {
         this.answerSubmit = true; // bloqueia os botoes de escolha das respostas apos envio da resposta
 
         if (this.chosen_answer == this.correct_answer)
-          this.userScore += 1;
+          this.userScore++;
         else
-          this.computerScore += 1;
+          this.computerScore++;
 
       } else {
         alert('Esolha uma das opções de respostas');
@@ -105,27 +106,12 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 #app {
   font-family: 'Arial', sans-serif;
   text-align: center;
   color: #333;
   margin-top: 40px;
-}
-
-.scoreboard {
-  background: linear-gradient(to right, #4a90e2, #50e3c2);
-  color: white;
-  padding: 15px 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  margin-bottom: 20px;
-  font-size: 24px;
-  font-weight: bold;
-}
-
-.scoreboard h1 {
-  margin: 0;
 }
 
 h1 {
