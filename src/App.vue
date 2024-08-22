@@ -12,7 +12,8 @@
 
     <div class="answers">
       <div v-for="(answer, index) in this.answers" :key="index" class="answer-item">
-        <input type="radio" name="options" :value="answer" :id="'option-' + index" v-model="this.chosen_answer" />
+        <input type="radio" name="options" :value="answer" :id="'option-' + index" v-model="this.chosen_answer"
+          :disabled="this.answerSubmit" />
         <label :for="'option-' + index" v-html="answer"></label>
       </div>
     </div>
@@ -34,6 +35,7 @@ export default {
       chosen_answer: undefined,
       userScore: 0,
       computerScore: 0,
+      answerSubmit: false,
     }
   },
 
@@ -58,10 +60,14 @@ export default {
     // envia a resposta do usuario
     submitAnswer() {
       if (this.chosen_answer) {
+
+        this.answerSubmit = true; // bloqueia os botoes de escolha das respostas apos envio da resposta
+
         if (this.chosen_answer == this.correct_answer)
           this.userScore += 1;
         else
           this.computerScore += 1;
+
       } else {
         alert('Esolha uma das opções de respostas');
       }
