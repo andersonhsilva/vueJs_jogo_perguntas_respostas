@@ -17,7 +17,7 @@
       </div>
     </div>
 
-    <button class="send" type="button" @click="this.submitAnswer();">Enviar</button>
+    <button class="send" type="button" @click="this.submitAnswer();">Enviar Resposta</button>
   </template>
 </template>
 
@@ -55,11 +55,15 @@ export default {
       return array;
     },
 
+    // envia a resposta do usuario
     submitAnswer() {
-      if (this.chosen_answer == this.correct_answer) {
-        alert('resposta exata');
+      if (this.chosen_answer) {
+        if (this.chosen_answer == this.correct_answer)
+          this.userScore += 1;
+        else
+          this.computerScore += 1;
       } else {
-        alert('resposta errada');
+        alert('Esolha uma das opções de respostas');
       }
     },
 
@@ -82,7 +86,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 #app {
   font-family: 'Arial', sans-serif;
   text-align: center;
