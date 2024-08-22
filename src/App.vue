@@ -18,7 +18,10 @@
       </div>
     </div>
 
-    <button class="send" type="button" @click="this.submitAnswer();">Enviar Resposta</button>
+    <button class="send" type="button" @click="this.submitAnswer();" :disabled="this.answerSubmit">Enviar
+      Resposta</button>
+    <button class="send" type="button" @click="this.getNewQuestion();" style="background-color: grey;">Próxima
+      Pergunta</button>
   </template>
 </template>
 
@@ -73,20 +76,29 @@ export default {
       }
     },
 
+    // pega uma nova pergunta com respostas
+    getNewQuestion() {
+
+      this.answerSubmit = false;
+      this.chosen_answer = undefined;
+
+      var api = 'https://opentdb.com/api.php?amount=1&category=18';
+      this.axios.get(api).then((response) => {
+
+        let result = response.data.results[0];
+
+        this.question = result.question;
+        this.incorrect_answers = result.incorrect_answers;
+        this.correct_answer = result.correct_answer;
+
+        console.log(response.data)
+      })
+    },
+
   },
 
   created() {
-    var api = 'https://opentdb.com/api.php?amount=1&category=18';
-    this.axios.get(api).then((response) => {
-
-      let result = response.data.results[0];
-
-      this.question = result.question;
-      this.incorrect_answers = result.incorrect_answers;
-      this.correct_answer = result.correct_answer;
-
-      console.log(response.data)
-    })
+    this.getNewQuestion();
   },
 
 }
@@ -166,6 +178,7 @@ button.send {
   font-size: 18px;
   transition: background-color 0.3s;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  margin: 10px;
 }
 
 button.send:hover {
