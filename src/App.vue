@@ -1,17 +1,24 @@
 <template>
-    <h1>Responda a Questão:</h1>
-    <template v-if="this.question">
-      <h2 v-html="this.question"></h2>
 
-      <div class="answers">
-        <div v-for="(answer, index) in this.answers" :key="index" class="answer-item">
-          <input type="radio" name="options" :value="answer" :id="'option-' + index" />
-          <label :for="'option-' + index" v-html="answer"></label>
-        </div>
+  <!-- Placar -->
+  <div class="scoreboard">
+    <h1>Placar: Usuário {{ this.userScore }} x {{ this.computerScore }} Computador</h1>
+  </div>
+
+  <!-- Questão e Respostas -->
+  <h1>Responda a Questão:</h1>
+  <template v-if="this.question">
+    <h2 v-html="this.question"></h2>
+
+    <div class="answers">
+      <div v-for="(answer, index) in this.answers" :key="index" class="answer-item">
+        <input type="radio" name="options" :value="answer" :id="'option-' + index" v-model="this.chosen_answer" />
+        <label :for="'option-' + index" v-html="answer"></label>
       </div>
+    </div>
 
-      <button class="send" type="button">Enviar</button>
-    </template>
+    <button class="send" type="button" @click="this.submitAnswer();">Enviar</button>
+  </template>
 </template>
 
 <script>
@@ -24,6 +31,9 @@ export default {
       question: undefined,
       incorrect_answers: [],
       correct_answer: undefined,
+      chosen_answer: undefined,
+      userScore: 0,
+      computerScore: 0,
     }
   },
 
@@ -43,7 +53,16 @@ export default {
         [array[i], array[j]] = [array[j], array[i]];
       }
       return array;
-    }
+    },
+
+    submitAnswer() {
+      if (this.chosen_answer == this.correct_answer) {
+        alert('resposta exata');
+      } else {
+        alert('resposta errada');
+      }
+    },
+
   },
 
   created() {
@@ -63,22 +82,38 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-family: 'Arial', sans-serif;
   text-align: center;
+  color: #333;
+  margin-top: 40px;
+}
+
+.scoreboard {
+  background: linear-gradient(to right, #4a90e2, #50e3c2);
+  color: white;
+  padding: 15px 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.scoreboard h1 {
+  margin: 0;
+}
+
+h1 {
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+
+h2 {
+  font-size: 22px;
+  margin-bottom: 20px;
   color: #2c3e50;
-  margin-top: 60px;
-}
-
-input[type="radio"] {
-  margin-right: 8px;
-}
-
-label {
-  margin-right: 16px;
 }
 
 .answers {
@@ -92,17 +127,35 @@ label {
   display: flex;
   align-items: center;
   margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.answer-item:hover {
+  background-color: #f0f0f0;
+}
+
+input[type="radio"] {
+  margin-right: 10px;
+}
+
+label {
+  font-size: 18px;
+  color: #333;
 }
 
 button.send {
   background-color: #007bff;
   color: white;
   border: none;
-  padding: 10px 20px;
+  padding: 12px 24px;
   border-radius: 5px;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 18px;
   transition: background-color 0.3s;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 button.send:hover {
